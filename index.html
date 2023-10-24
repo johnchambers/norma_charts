@@ -37,11 +37,12 @@
 
 // Y axis = pain level
 // X axis = Date
-// Bubble radius = Duration
-// Bubble colour = Entry Type
+
+
 		
 
 
+// Bubble radius = Duration
 // Duration
 // (value in airtable = radius of bubble)
 // 1 = 10
@@ -52,6 +53,33 @@
 // 6 = 35
 // 7 = 40
 // 8 = 45
+		
+
+function durationRadius(value) {
+	
+	duration = Number(value);
+	
+    switch (duration) {
+        case 1:
+            return 10;
+        case 2:
+            return 15;
+        case 3:
+            return 20;
+        case 4:
+            return 25;
+        case 5:
+            return 30;
+        case 6:
+            return 35;
+        case 7:
+            return 40;
+        case 8:
+            return 45;
+        default:
+            return 10;
+    }
+}
 		
 
 
@@ -109,16 +137,19 @@
 					
 					dataset_data[i] = records.map(record => {
 						
-						if (record.fields.EntryType == 4) {
+						if (record.fields.EntryType == i) {
 							
 							const dateObj = new Date(record.fields.LastModified);
-					
-						    return {
-						        x: record.fields.LastModified,
-								// x: dateObj.toISOString().split('T')[0],
-						        y: record.fields.PainLevel,
-						        r: record.fields.Duration
-						    };
+							
+							if (record.fields.PainLevel) {
+							    return {
+							        x: record.fields.LastModified,
+									// x: dateObj.toISOString().split('T')[0],
+							        y: record.fields.PainLevel,
+							        // r: record.fields.Duration
+									r: durationRadius(record.fields.Duration)
+							    };
+							}
 							
 						} else {
 							
@@ -149,9 +180,7 @@
 				
 				
 				// alert(dataset_data);
-				
-				// alert(JSON.stringify(dataset_data[5]));
-				// alert(JSON.stringify(dataset_data[6]));
+				// alert(JSON.stringify(dataset_data[3]));
 				
 				// [{"x":"2023-10-18T15:40:55.000Z","y":8,"r":"15"}]
 				
@@ -272,6 +301,7 @@
 					                time: {
 					                    unit: 'day', // This will group the data by days
 										min: '2022-01-01T13:59:17.000Z',
+										// max: '2024-01-01T13:59:17.000Z',
 										displayFormats: {
 					                        day: 'DD MMM YYYY' // This is the format in which the date will be displayed
 					                    },
