@@ -7,7 +7,22 @@
     <title>Norma Chart</title>
 	
 	
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!--
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+	-->
+	
+	
+	<!--
+	
+	-->
+	
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@^3"></script>
+	<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
 	
 	
 	
@@ -81,70 +96,64 @@
                 const records = data.records;
                 const listElement = document.getElementById('painLevelList');
 
-                records.forEach(record => {
+				
+				const dataset_data = new Array();
+				
+				
+				
+				for (let i = 1; i <= 9; i++) {
+				    // Your code block here
+				    // console.log(i);  // Just a sample action: this will print numbers 1 to 9 in the console
 					
+					dataset_data[i] = new Array();
 					
-                    if (record.fields.PainLevel) {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = record.fields.PainLevel;
-                        listElement.appendChild(listItem);
-                    }
+					dataset_data[i] = records.map(record => {
+						
+						if (record.fields.EntryType == 4) {
+							
+							const dateObj = new Date(record.fields.LastModified);
 					
+						    return {
+						        x: record.fields.LastModified,
+								// x: dateObj.toISOString().split('T')[0],
+						        y: record.fields.PainLevel,
+						        r: record.fields.Duration
+						    };
+							
+						} else {
+							
+							return {};
+							
+						}
+						
+					});
 					
-					
+				}
+				
+				
+				
+				records.forEach(record => {
 
-					
-					
-					
-                    if (record.fields.EntryType == "1") {
-						
-						dataset_data[record.fields.EntryType] = { x: record.fields.LastModified, y: record.fields.PainLevel, r: record.fields.Duration }
-						
-                    }
-					
-					
-					
-                });
+						if (record.fields.PainLevel) {
+							const listItem = document.createElement('li');
+
+							listItem.textContent = " EntryType: " + record.fields.EntryType.toString();
+							listItem.textContent += " PainLevel: " + record.fields.PainLevel.toString();
+							listItem.textContent += " Duration: " + record.fields.Duration.toString();
+							listItem.textContent += " LastModified: " + record.fields.LastModified.toString();
+
+							listElement.appendChild(listItem);
+						}
+
+				});
 				
 				
+				// alert(dataset_data);
 				
-				dataset_data.forEach(dataset => { 
+				// alert(JSON.stringify(dataset_data[5]));
+				// alert(JSON.stringify(dataset_data[6]));
 				
-				
-				    // Generating random data for demonstration
-				    // const numberOfDataPoints = 10;
-				    // const startDate = new Date();
-				    //
-				    // const labels = Array.from({ length: numberOfDataPoints }, (_, i) => {
-				    //     const date = new Date(startDate);
-				    //     date.setDate(startDate.getDate() + i);
-				    //     return date.toISOString().split('T')[0]; // YYYY-MM-DD format
-				    // });
-				    // const data = Array.from({ length: numberOfDataPoints }, () => Math.floor(Math.random() * 100));
-			
-			
-					// const data = {
-					//   datasets: [{
-					//     label: 'Pain Data',
-					//     data: [{
-					//       x: 20,
-					//       y: 30,
-					//       r: 15
-					//     }, {
-					//       x: 40,
-					//       y: 10,
-					//       r: 10
-					//     }],
-					//     backgroundColor: 'rgb(255, 99, 132)'
-					//   }]
-					// };
-					
-					
-				
-				})
-				
-				
-				
+				// [{"x":"2023-10-18T15:40:55.000Z","y":8,"r":"15"}]
 				
 	
 				const chart_data = {
@@ -152,91 +161,100 @@
 				    datasets: [
 				      {
 				        label: 'Dilator 1',
-			            data: [
-			                { x: 10, y: 20, r: 15 },
-			                { x: 15, y: 25, r: 10 },
-			                { x: 25, y: 10, r: 20 }
-			            ],
+			            // data: [
+			            //     { x: 10, y: 20, r: 15 },
+			            //     { x: 15, y: 25, r: 10 },
+			            //     { x: 25, y: 10, r: 20 }
+			            // ],
+						data: dataset_data[1],
 			            backgroundColor: 'rgb(203, 249, 202, 0.6)',
 			            borderColor: 'rgb(203, 249, 202, 1)'
 				      },
 				      {
-				        label: 'Dilator 2',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
-			            backgroundColor: 'rgb(186, 225, 185, 0.6)',
-			            borderColor: 'rgb(186, 225, 185, 1)'
-				      },
-				      {
-				        label: 'Dilator 3',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
-			            backgroundColor: 'rgb(166, 203, 165, 0.6)',
-			            borderColor: 'rgb(166, 203, 165)'
-				      },
-				      {
-				        label: 'Dilator 4',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
-			            backgroundColor: 'rgb(142, 174, 141, 0.6)',
-			            borderColor: 'rgb(142, 174, 141, 1)'
-				      },
-				      {
-				        label: 'Dilator 5',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
-			            backgroundColor: 'rgb(122, 149, 121, 0.6)',
-			            borderColor: 'rgb(122, 149, 121, 1)'
-				      },
-				      {
-				        label: 'Tampon',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
-			            backgroundColor: 'rgb(254, 248, 244, 0.6)',
-			            borderColor: '#CCC'
-				      },
-				      {
-				        label: 'Finger',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
-			            backgroundColor: 'rgb(255, 206, 171, 0.6)',
-			            borderColor: 'rgb(255, 206, 171, 1)'
-				      },
-				      {
-				        label: 'Toy',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
-			            backgroundColor: 'rgb(241, 151, 48, 0.6)',
-			            borderColor: 'rgb(241, 151, 48, 1)'
-				      },
+ 				        label: 'Dilator 2',
+ 			            // data: [
+ 			            //     { x: 20, y: 30, r: 10 },
+ 			            //     { x: 30, y: 15, r: 15 },
+ 			            //     { x: 40, y: 20, r: 20 }
+ 			            // ],
+ 						data: dataset_data[2],
+ 			            backgroundColor: 'rgb(186, 225, 185, 0.6)',
+ 			            borderColor: 'rgb(186, 225, 185, 1)'
+ 				      },
+ 				      {
+ 				        label: 'Dilator 3',
+ 			            // data: [
+ 			            //     { x: 20, y: 30, r: 10 },
+ 			            //     { x: 30, y: 15, r: 15 },
+ 			            //     { x: 40, y: 20, r: 20 }
+ 			            // ],
+ 						data: dataset_data[3],
+ 			            backgroundColor: 'rgb(166, 203, 165, 0.6)',
+ 			            borderColor: 'rgb(166, 203, 165)'
+ 				      },
+ 				      {
+ 				        label: 'Dilator 4',
+ 			            // data: [
+ 			            //     { x: 20, y: 30, r: 10 },
+ 			            //     { x: 30, y: 15, r: 15 },
+ 			            //     { x: 40, y: 20, r: 20 }
+ 			            // ],
+ 						data: dataset_data[4],
+ 			            backgroundColor: 'rgb(142, 174, 141, 0.6)',
+ 			            borderColor: 'rgb(142, 174, 141, 1)'
+ 				      },
+ 				      {
+ 				        label: 'Dilator 5',
+ 			            // data: [
+ 			            //     { x: 20, y: 30, r: 10 },
+ 			            //     { x: 30, y: 15, r: 15 },
+ 			            //     { x: 40, y: 20, r: 20 }
+ 			            // ],
+ 						data: dataset_data[5],
+ 			            backgroundColor: 'rgb(122, 149, 121, 0.6)',
+ 			            borderColor: 'rgb(122, 149, 121, 1)'
+ 				      },
+ 				      {
+ 				        label: 'Tampon',
+ 			            // data: [
+ 			            //     { x: 20, y: 30, r: 10 },
+ 			            //     { x: 30, y: 15, r: 15 },
+ 			            //     { x: 40, y: 20, r: 20 }
+ 			            // ],
+ 						data: dataset_data[6],
+ 			            backgroundColor: 'rgb(254, 248, 244, 0.6)',
+ 			            borderColor: '#CCC'
+ 				      },
+ 				      {
+ 				        label: 'Finger',
+ 			            // data: [
+ 			            //     { x: 20, y: 30, r: 10 },
+ 			            //     { x: 30, y: 15, r: 15 },
+ 			            //     { x: 40, y: 20, r: 20 }
+ 			            // ],
+ 						data: dataset_data[7],
+ 			            backgroundColor: 'rgb(255, 206, 171, 0.6)',
+ 			            borderColor: 'rgb(255, 206, 171, 1)'
+ 				      },
+ 				      {
+ 				        label: 'Toy',
+ 			            // data: [
+ 			            //     { x: 20, y: 30, r: 10 },
+ 			            //     { x: 30, y: 15, r: 15 },
+ 			            //     { x: 40, y: 20, r: 20 }
+ 			            // ],
+ 						data: dataset_data[8],
+ 			            backgroundColor: 'rgb(241, 151, 48, 0.6)',
+ 			            borderColor: 'rgb(241, 151, 48, 1)'
+ 				      },
 				      {
 				        label: 'Penetrative Sex',
-			            data: [
-			                { x: 20, y: 30, r: 10 },
-			                { x: 30, y: 15, r: 15 },
-			                { x: 40, y: 20, r: 20 }
-			            ],
+			            // data: [
+			            //     { x: 20, y: 30, r: 10 },
+			            //     { x: 30, y: 15, r: 15 },
+			            //     { x: 40, y: 20, r: 20 }
+			            // ],
+						data: dataset_data[9],
 			            backgroundColor: 'rgb(241, 104, 111, 0.6)',
 			            borderColor: 'rgb(241, 104, 111, 1)'
 				      }
@@ -244,20 +262,29 @@
 				};
 		
 				
-		
 				const config = {
 				  type: 'bubble',
 				  data: chart_data,
 				  options: {
 						scales: {
 						        x: {
+									type: 'timeseries', // This sets the x-axis to be a date/time scale
+					                time: {
+					                    unit: 'day', // This will group the data by days
+										min: '2022-01-01T13:59:17.000Z',
+										displayFormats: {
+					                        day: 'DD MMM YYYY' // This is the format in which the date will be displayed
+					                    },
+					                    tooltipFormat: 'll' // Format for the tooltip when hovering over a data point
+					                },
 						            title: {
 						                display: true,
 						                text: 'Date'
 						            }
 						        },
 						        y: {
-						            // beginAtZero: true
+						            beginAtZero: true,
+									max: 10,
 									title: {
 						                display: true,
 						                text: 'Comfort Level'
@@ -268,42 +295,7 @@
 				};
 		
 				
-
-				// const config = {
-				//   type: 'line',
-				// 		        // data: {
-				// 		        //     labels: labels,
-				// 		        //     datasets: [{
-				// 		        //         label: 'Random Data',
-				// 		        //         data: data,
-				// 		        //         borderColor: 'rgba(75, 192, 192, 1)',
-				// 		        //         fill: false
-				// 		        //     }]
-				// 		        // },
-				//   data: data,
-				//   options: {
-				// 		            scales: {
-				// 		                x: {
-				// 		                    type: 'timeseries',
-				// 		                    time: {
-				// 		                        unit: 'day'
-				// 		                    }
-				// 		                },
-				// 		                y: {
-				// 		                    beginAtZero: true
-				// 		                }
-				// 		            }
-				// 		        }
-				// };
-		
-		
-		
-		
-		
 			    new Chart(ctx, config);
-				
-				
-				
 				
 				
             })
