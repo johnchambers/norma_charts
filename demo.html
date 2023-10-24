@@ -1,0 +1,34 @@
+<h1>Hey there, Heres's your chart!</h1>
+
+<br>
+
+<script>
+	
+	// Test with url
+	// https://johnchambers.github.io/norma/demo.html?MemberId=652fbffa247d698aa78d201c
+	
+	
+	// Example 1: MemberId from query string
+	const urlParams = new URLSearchParams(window.location.search);
+	const memberId = urlParams.get('MemberId');
+	
+	// Example 1: MemberId from cookie
+	// const memberId = "PUt your cookie function here"
+	
+	
+	
+	
+	// Create the iframe element
+	var iframe = document.createElement('iframe');
+	
+	// Set the source of the iframe with your variable included in the query string
+	iframe.src = 'https://johnchambers.github.io/norma/?MemberId=' + memberId;
+	
+	iframe.width = "600"
+	iframe.height = "400"
+	iframe.style = "border:none;"
+	
+	// Append the iframe to the body of the document
+	document.body.appendChild(iframe);
+	
+</script>
