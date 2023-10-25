@@ -2,33 +2,44 @@
 
 <br>
 
+
+<div id="painChart"></div>
+
 <script>
 	
-	// Test with url
-	// https://johnchambers.github.io/norma/demo.html?MemberId=652fbffa247d698aa78d201c
+	document.addEventListener("DOMContentLoaded", function() {	
+	
+		// Test with url
+		// https://johnchambers.github.io/norma/demo.html?MemberId=652fbffa247d698aa78d201c
 	
 	
-	// Example 1: MemberId from query string
-	const urlParams = new URLSearchParams(window.location.search);
-	const memberId = urlParams.get('MemberId');
+		// Example 1: MemberId from query string
+		const urlParams = new URLSearchParams(window.location.search);
+		const memberId = urlParams.get('MemberId');
 	
-	// Example 1: MemberId from cookie
-	// const memberId = "PUt your cookie function here"
-	
-	
+		// Example 1: MemberId from cookie
+		// const memberId = "PUt your cookie function here"
 	
 	
-	// Create the iframe element
-	var iframe = document.createElement('iframe');
 	
-	// Set the source of the iframe with your variable included in the query string
-	iframe.src = 'https://johnchambers.github.io/norma/?MemberId=' + memberId;
 	
-	iframe.width = "600"
-	iframe.height = "400"
-	iframe.style = "border:none;"
+		// Create the iframe element
+		var iframe = document.createElement('iframe');
+		const painChart = document.getElementById('painChart');
 	
-	// Append the iframe to the body of the document
-	document.body.appendChild(iframe);
 	
+		// Set the source of the iframe with your variable included in the query string
+		iframe.src = 'https://johnchambers.github.io/norma/?MemberId=' + memberId;
+	
+		iframe.width = "600"
+		iframe.height = "400"
+		iframe.style = "border:none;"
+	
+		// Append the iframe to the body of the document
+		// document.body.appendChild(iframe);
+	
+		painChart.appendChild(iframe);
+	
+	});
+
 </script>
